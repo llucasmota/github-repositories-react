@@ -31,4 +31,11 @@ export const Owner = styled.header`
     text-align: center;
     max-width: 400px;
   }
+  a {
+    color: #7159c1;
+    font-size: 16px;
+    text-decoration: none;
+  }
 `;
+
+export const IssueList = styled.ul``;
