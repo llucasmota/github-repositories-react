@@ -14,6 +14,7 @@ export default class Main extends Component {
     newRepo: '',
     repositories: [],
     loading: false,
+    error: null,
   };
 
   // carregar dados do localStorage
@@ -39,17 +40,30 @@ export default class Main extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ loading: true });
-    const { newRepo, repositories } = this.state;
-    const response = await api.get(`/repos/${newRepo}`);
-    const data = {
-      name: response.data.full_name,
-    };
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+    this.setState({ loading: true, error: false });
+    try {
+      const { newRepo, repositories } = this.state;
+
+      if (newRepo === '') throw 'Você precisa indicar um repositório';
+
+      const repeatRepo = repositories.find(index => index.name === newRepo);
+
+      if (repeatRepo) throw 'Repositório repetido';
+
+      const response = await api.get(`/repos/${newRepo}`);
+      const data = {
+        name: response.data.full_name,
+      };
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+      });
+    } catch (err) {
+      this.setState({ error: true });
+      console.log(err);
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   render() {
