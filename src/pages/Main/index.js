@@ -58,23 +58,23 @@ export default class Main extends Component {
         repositories: [...repositories, data],
         newRepo: '',
       });
-    } catch (err) {
+    } catch (error) {
       this.setState({ error: true });
-      console.log(err);
+      console.log(error);
     } finally {
       this.setState({ loading: false });
     }
   };
 
   render() {
-    const { newRepo, loading, repositories } = this.state;
+    const { newRepo, loading, repositories, error } = this.state;
     return (
       <Container>
         <h1>
           <FaGithubAlt />
           Repositórios
         </h1>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit} error={error}>
           <input
             type="text"
             placeholder="Adicionar repositório"
