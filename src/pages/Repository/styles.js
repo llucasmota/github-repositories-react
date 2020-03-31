@@ -37,6 +37,18 @@ export const Owner = styled.header`
     text-decoration: none;
   }
 `;
+export const FilterIssues = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 800px;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+  margin-left: 30px;
+  button {
+    padding-left: 20px;
+  }
+`;
 
 export const IssueList = styled.ul`
   padding-top: 30px;

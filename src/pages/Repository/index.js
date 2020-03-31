@@ -5,13 +5,18 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueList, FilterIssues } from './styles';
 
 export default class Repository extends Component {
   state = {
     repository: {},
     issues: [],
     loading: true,
+    filterIssues: [
+      { state: 'all', textLabel: 'Todos', enabled: true },
+      { state: 'open', textLabel: 'Abertos', enabled: false },
+      { state: 'closed', textLabel: 'Fechados', enabled: false },
+    ],
   };
 
   async componentDidMount() {
@@ -38,7 +43,7 @@ export default class Repository extends Component {
   }
 
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, loading, filterIssues } = this.state;
     if (loading) {
       return <Loading>Carregando...</Loading>;
     }
@@ -50,6 +55,13 @@ export default class Repository extends Component {
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
         </Owner>
+        <FilterIssues>
+          {filterIssues.map(filterIndex => (
+            <button type="button" key={filterIndex.state}>
+              {filterIndex.textLabel}
+            </button>
+          ))}
+        </FilterIssues>
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
