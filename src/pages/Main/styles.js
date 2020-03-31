@@ -9,13 +9,10 @@ export const Form = styled.form.attrs(props => ({
 
   input {
     flex: 1;
-    border: 1px solid #eee;
+    border: 1px solid ${props => (props.error ? '#ff0000' : '#eee')};
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 16px;
-    &[errorDisabled] {
-      border: 1px solid #ff0000;
-    }
   }
 `;
 const rotate = keyframes`
