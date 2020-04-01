@@ -40,13 +40,17 @@ export const Owner = styled.header`
 export const FilterIssues = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   max-width: 800px;
   border-top: 1px solid #eee;
   padding-top: 30px;
   margin-left: 30px;
   button {
-    padding-left: 20px;
+    width: 10vw;
+    height: 5vh;
+    margin-right: 10px;
+    text-align: center;
   }
 `;
 
