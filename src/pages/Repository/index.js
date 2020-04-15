@@ -12,15 +12,19 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
+    enabled: 0,
     filterIssues: [
-      { state: 'all', textLabel: 'Todos', enabled: true },
-      { state: 'open', textLabel: 'Abertos', enabled: false },
-      { state: 'closed', textLabel: 'Fechados', enabled: false },
+      { state: 'all', textLabel: 'Todos' },
+      { state: 'open', textLabel: 'Abertos' },
+      { state: 'closed', textLabel: 'Fechados' },
     ],
   };
 
   async componentDidMount() {
     const { match } = this.props;
+    const { filterIssues, enabled } = this.state;
+
+    console.log(enabled);
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -36,17 +40,16 @@ export default class Repository extends Component {
       repository: repository.data,
       issues: issues.data,
       loading: false,
+      enabled: 0,
     });
-
-    console.log(repository);
-    console.log(issues);
   }
 
   render() {
-    const { repository, issues, loading, filterIssues } = this.state;
+    const { repository, issues, loading, filterIssues, enabled } = this.state;
     if (loading) {
       return <Loading>Carregando...</Loading>;
     }
+
     return (
       <Container>
         <Owner>
@@ -55,9 +58,13 @@ export default class Repository extends Component {
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
         </Owner>
-        <FilterIssues>
+        <FilterIssues enabled={enabled}>
           {filterIssues.map(filterIndex => (
-            <button type="button" key={filterIndex.state}>
+            <button
+              type="button"
+              key={filterIndex.state}
+              id={filterIndex.state}
+            >
               {filterIndex.textLabel}
             </button>
           ))}

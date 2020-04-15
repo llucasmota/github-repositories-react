@@ -37,7 +37,9 @@ export const Owner = styled.header`
     text-decoration: none;
   }
 `;
-export const FilterIssues = styled.div`
+export const FilterIssues = styled.div.attrs(props => ({
+  enabled: props.enabled,
+}))`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -46,11 +48,19 @@ export const FilterIssues = styled.div`
   border-top: 1px solid #eee;
   padding-top: 30px;
   margin-left: 30px;
+
   button {
+    background: #f5f5f5;
+    border-radius: 4%;
+    border: 1px solid #7159c1;
     width: 10vw;
-    height: 5vh;
+    height: 6vh;
     margin-right: 10px;
     text-align: center;
+    &:nth-child(${props => props.enabled + 2}) {
+      background: #ff0000;
+      color: #f5f5f5;
+    }
   }
 `;
 
