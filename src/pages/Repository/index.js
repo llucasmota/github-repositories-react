@@ -35,6 +35,7 @@ export default class Repository extends Component {
         per_page: 5,
       }),
     ]);
+    console.log(filterIssues[enabled].state);
 
     this.setState({
       repository: repository.data,
@@ -43,6 +44,30 @@ export default class Repository extends Component {
       enabled: 0,
     });
   }
+
+  laodIssuesByCatebory = async () => {
+    const { match } = this.props;
+    const { filterIssues, enabled } = this.state;
+
+    const repoName = decodeURIComponent(match.params.repository);
+
+    const response = await api.get(`/repos/${repoName}/issues`, {
+      state: filterIssues[enabled].state,
+      per_page: 5,
+    });
+    this.setState({
+      issues: response.data,
+      loading: false,
+      enabled: 0,
+    });
+  };
+
+  handleFilterIssues = async index => {
+    await this.setState({
+      enabled: index,
+    });
+    this.laodIssuesByCatebory();
+  };
 
   render() {
     const { repository, issues, loading, filterIssues, enabled } = this.state;
@@ -59,11 +84,12 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
         <FilterIssues enabled={enabled}>
-          {filterIssues.map(filterIndex => (
+          {filterIssues.map((filterIndex, index) => (
             <button
               type="button"
               key={filterIndex.state}
-              id={filterIndex.state}
+              id={index}
+              onClick={() => this.handleFilterIssues(index)}
             >
               {filterIndex.textLabel}
             </button>

@@ -57,7 +57,7 @@ export const FilterIssues = styled.div.attrs(props => ({
     height: 6vh;
     margin-right: 10px;
     text-align: center;
-    &:nth-child(${props => props.enabled + 2}) {
+    &:nth-child(${props => props.enabled + 1}) {
       background: #ff0000;
       color: #f5f5f5;
     }
