@@ -5,7 +5,13 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList, FilterIssues } from './styles';
+import {
+  Loading,
+  Owner,
+  IssueList,
+  FilterIssues,
+  PaginationComponent,
+} from './styles';
 
 export default class Repository extends Component {
   state = {
@@ -18,12 +24,12 @@ export default class Repository extends Component {
       { state: 'open', textLabel: 'Abertos' },
       { state: 'closed', textLabel: 'Fechados' },
     ],
-    page: 0,
+    page: 1,
   };
 
   async componentDidMount() {
     const { match } = this.props;
-    const { filterIssues, enabled } = this.state;
+    const { filterIssues, enabled, page } = this.state;
 
     console.log(enabled);
 
@@ -35,6 +41,7 @@ export default class Repository extends Component {
         params: {
           state: filterIssues[enabled].state,
           per_page: 5,
+          page,
         },
       }),
     ]);
@@ -49,7 +56,7 @@ export default class Repository extends Component {
   laodIssuesByCategory = async () => {
     this.setState({ loading: true });
     const { match } = this.props;
-    const { filterIssues, enabled } = this.state;
+    const { filterIssues, enabled, page } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -57,6 +64,7 @@ export default class Repository extends Component {
       params: {
         state: filterIssues[enabled].state,
         per_page: 5,
+        page,
       },
     });
     this.setState({
@@ -73,8 +81,21 @@ export default class Repository extends Component {
     this.laodIssuesByCategory();
   };
 
+  handlePagination = async action => {
+    const { page } = this.state;
+    await this.setState({ page: action === 'next' ? page + 1 : page - 1 });
+    this.laodIssuesByCategory();
+  };
+
   render() {
-    const { repository, issues, loading, filterIssues, enabled } = this.state;
+    const {
+      repository,
+      issues,
+      loading,
+      filterIssues,
+      enabled,
+      page,
+    } = this.state;
     if (loading) {
       return <Loading>Carregando...</Loading>;
     }
@@ -115,6 +136,21 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <PaginationComponent>
+          <button
+            type="button"
+            disabled={page < 2}
+            onClick={() => this.handlePagination('back')}
+          >
+            {' '}
+            Voltar{' '}
+          </button>
+          <span>{page}</span>
+          <button type="button" onClick={() => this.handlePagination('next')}>
+            {' '}
+            Avançar{' '}
+          </button>
+        </PaginationComponent>
       </Container>
     );
   }

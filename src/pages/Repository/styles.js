@@ -58,7 +58,8 @@ export const FilterIssues = styled.div.attrs(props => ({
     margin-right: 10px;
     text-align: center;
     &:nth-child(${props => props.enabled + 1}) {
-      background: #ff0000;
+      background: #7159c1;
+      opacity: 0.7;
       color: #f5f5f5;
     }
   }
@@ -113,6 +114,24 @@ export const IssueList = styled.ul`
         font-size: 12px;
         color: #999;
       }
+    }
+  }
+`;
+
+export const PaginationComponent = styled.div`
+  padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  button {
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #7159c1;
+    background: #fff;
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
     }
   }
 `;
