@@ -18,6 +18,7 @@ export default class Repository extends Component {
       { state: 'open', textLabel: 'Abertos' },
       { state: 'closed', textLabel: 'Fechados' },
     ],
+    page: 0,
   };
 
   async componentDidMount() {
@@ -31,42 +32,45 @@ export default class Repository extends Component {
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
-        state: 'open',
-        per_page: 5,
+        params: {
+          state: filterIssues[enabled].state,
+          per_page: 5,
+        },
       }),
     ]);
-    console.log(filterIssues[enabled].state);
 
     this.setState({
       repository: repository.data,
       issues: issues.data,
       loading: false,
-      enabled: 0,
     });
   }
 
-  laodIssuesByCatebory = async () => {
+  laodIssuesByCategory = async () => {
+    this.setState({ loading: true });
     const { match } = this.props;
     const { filterIssues, enabled } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
     const response = await api.get(`/repos/${repoName}/issues`, {
-      state: filterIssues[enabled].state,
-      per_page: 5,
+      params: {
+        state: filterIssues[enabled].state,
+        per_page: 5,
+      },
     });
     this.setState({
       issues: response.data,
       loading: false,
-      enabled: 0,
     });
+    console.log(this.state);
   };
 
   handleFilterIssues = async index => {
     await this.setState({
       enabled: index,
     });
-    this.laodIssuesByCatebory();
+    this.laodIssuesByCategory();
   };
 
   render() {
