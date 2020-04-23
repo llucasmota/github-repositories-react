@@ -88,6 +88,12 @@ https://api.github.com/repos/rocketseat/unform/issues?page=2
 
 Adicione apenas um botão de próxima página e página anterior. O botão de página anterior deve ficar desativado na primeira página.
 
+#### 5. Resultado do projeto:
+https://github.com/llucasmota/github-repositories-react/blob/master/public/app.gif
+
+<p align="center">
+  <img alt="GitHub language count" src="https://github.com/llucasmota/github-repositories-react/blob/master/public/app.gif">
+
 ## 📅 Entrega
 
 Esse desafio **não precisa ser entregue** e não receberá correção, mas você pode ver o resultado do [código do desafio aqui](https://github.com/Rocketseat/bootcamp-gostack-desafio-05). Após concluir o desafio, adicionar esse código ao seu Github é uma boa forma de demonstrar seus conhecimentos para oportunidades futuras.
